@@ -34,21 +34,24 @@ def oak_score(target_species, predictions):
     # First guess species (1S)
     # First guess confidence (1C)
     # First guess points (1P)
+    # First guess matching criteria (1M)
     # Second guess species (2S)
     # Second guess confidence (2C)
     # Second guess points (2P)
+    # Second guess matching criteria (2M)
     # Third guess species (3S)
     # Third guess confidence (3C)
     # Third guess points (3P)
+    # Third guess matching criteria (3M)
     # Total points scaled to skill (FINAL)
 
     # Output if 100% correct guess
     if round(target_score, 3) == 1 and top3_species[0] == target_species:
         output = {
             "TARGET_PERCENT": [100],
-            "1S": [None], "1C": [None], "1P": [None],
-            "2S": [None], "2C": [None], "2P": [None],
-            "3S": [None], "3C": [None], "3P": [None],
+            "1S": [None], "1C": [None], "1P": [None], "1M": [None],
+            "2S": [None], "2C": [None], "2P": [None], "2M": [None],
+            "3S": [None], "3C": [None], "3P": [None], "3M": [None],
             "FINAL": [100]
         }
     else:
@@ -56,7 +59,9 @@ def oak_score(target_species, predictions):
         target_percent = round(target_score * 100, 1)
 
         # Create empty array of size 3 * 3
-        guesses_array = np.array([[None, None, None], [None, None, None], [None, None, None]])
+        guesses_array = np.array([[None, None, None, None],
+                                  [None, None, None, None],
+                                  [None, None, None, None]])
 
         # Generate own metadata
         own_entry = pokedex['Name'].index(target_species)
@@ -98,14 +103,26 @@ def oak_score(target_species, predictions):
             else:
                 shape = 0
 
-            # Sum and weight output
+            # Sum and weight points
             point_sum = type + tree + shape
             point_weight = point_sum * (3, 2, 1)[G]
+
+            # Assemble matching criteria
+            # 3-char string, T = type, F = family, S = shape
+            # X if no match, OOO if guess is the target species
+            if top3_species[G] == target_species:
+                match = '000'
+            else:
+                match_1 = 'T' if type == 1 else 'X'
+                match_2 = 'F' if tree == 1 else 'X'
+                match_3 = 'S' if shape == 1 else 'X'
+                match = match_1 + match_2 + match_3
 
             # Add score to array
             guesses_array[G, 0] = top3_species[G]
             guesses_array[G, 1] = round(top3_scores[G] * 100, 1)
             guesses_array[G, 2] = point_weight
+            guesses_array[G, 3] = match
 
         # Extract total
         total = sum(guesses_array[range(0, G + 1), 2]) + target_percent
@@ -120,9 +137,12 @@ def oak_score(target_species, predictions):
         # Output to json
         output = {
             "TARGET_PERCENT": [target_percent],
-            "1S": [guesses_array[0, 0]], "1C": [guesses_array[0, 1]], "1P": [guesses_array[0, 2]],
-            "2S": [guesses_array[1, 0]], "2C": [guesses_array[1, 1]], "2P": [guesses_array[1, 2]],
-            "3S": [guesses_array[2, 0]], "3C": [guesses_array[2, 1]], "3P": [guesses_array[2, 2]],
+            "1S": [guesses_array[0, 0]], "1C": [guesses_array[0, 1]],
+            "1P": [guesses_array[0, 2]], "1M": [guesses_array[0, 3]],
+            "2S": [guesses_array[1, 0]], "2C": [guesses_array[1, 1]],
+            "2P": [guesses_array[1, 2]], "2M": [guesses_array[1, 3]],
+            "3S": [guesses_array[2, 0]], "3C": [guesses_array[2, 1]],
+            "3P": [guesses_array[2, 2]], "3M": [guesses_array[2, 3]],
             "FINAL": [final_score]
         }
 
