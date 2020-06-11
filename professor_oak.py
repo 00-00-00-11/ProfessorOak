@@ -19,4 +19,6 @@ predictions = pred.model_prediction(input_image, core)
 
 # Generate final scores
 output = score.oak_score(target_species, predictions)
+
+# Print human-readable output - Incoming
 print(output)
