@@ -5,6 +5,12 @@ Initial version of Professor Oak, translated into Python.
 
 Requires modules tensorflow, PIL and numpy.
 
+TO DO
+-------
+
+Keras read from Pillow image class, rather than flowing from directory\\
+GUI with Tkinter
+
 ------------------------------
 professor_oak.py
 ------------------------------
@@ -12,7 +18,7 @@ professor_oak.py
 Central script. Calls the three peripheral modules and handles I/O.
 
 INPUT VARIABLES
-image_path = path to input image: any size, white background, no alpha
+image_path = path to input image: any size, white background, no alpha\\
 target_species = What you've attempted to draw - spelling and capitalisation crucial.
 
 OUTPUT VARIABLES
