@@ -26,6 +26,8 @@ image_path = path to input image: any size, white background, no alpha
 
 target_species = What you've attempted to draw - spelling and capitalisation crucial.
 
+For test images, specify a species name with correct capitalisation. Script will automatically load the right image from the test_images director
+
 OUTPUT VARIABLES
 
 JSON format containing: % accuracy of Oak's guess, Species and score for his top 3 guesses, and adjusted score out of 100
