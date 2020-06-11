@@ -8,8 +8,6 @@ Requires modules tensorflow, PIL and numpy.
 To do list
 -------
 
-Human-readable output from JSON
-
 GUI with Tkinter
 
 
