@@ -32,28 +32,31 @@ def oak_score(target_species, predictions):
     # OUTPUT FORMAT
     # % of actual target (TARGET_PERCENT)
     # First guess species (1S)
+    # First guess confidence (1C)
     # First guess points (1P)
     # Second guess species (2S)
+    # Second guess confidence (2C)
     # Second guess points (2P)
     # Third guess species (3S)
+    # Third guess confidence (3C)
     # Third guess points (3P)
     # Total points scaled to skill (FINAL)
 
     # Output if 100% correct guess
-    if round(target_score, 3) == 1:
+    if round(target_score, 3) == 1 and top3_species[0] == target_species:
         output = {
             "TARGET_PERCENT": [100],
-            "1S": [None], "1P": [None],
-            "2S": [None], "2P": [None],
-            "3S": [None], "3P": [None],
+            "1S": [None], "1C": [None], "1P": [None],
+            "2S": [None], "2C": [None], "2P": [None],
+            "3S": [None], "3C": [None], "3P": [None],
             "FINAL": [100]
         }
     else:
         # Output of top guesses
         target_percent = round(target_score * 100, 1)
 
-        # Create empty array of size 2 * 3
-        guesses_array = np.array([[None, None], [None, None], [None, None]])
+        # Create empty array of size 3 * 3
+        guesses_array = np.array([[None, None, None], [None, None, None], [None, None, None]])
 
         # Generate own metadata
         own_entry = pokedex['Name'].index(target_species)
@@ -101,10 +104,11 @@ def oak_score(target_species, predictions):
 
             # Add score to array
             guesses_array[G, 0] = top3_species[G]
-            guesses_array[G, 1] = point_weight
+            guesses_array[G, 1] = round(top3_scores[G] * 100, 1)
+            guesses_array[G, 2] = point_weight
 
         # Extract total
-        total = sum(guesses_array[range(0, G + 1), 1]) + target_percent
+        total = sum(guesses_array[range(0, G + 1), 2]) + target_percent
 
         # Scale total to Oak's power
         oak_max = entry = pokedex['Power'][own_entry]
@@ -116,9 +120,9 @@ def oak_score(target_species, predictions):
         # Output to json
         output = {
             "TARGET_PERCENT": [target_percent],
-            "1S": [guesses_array[0, 0]], "1P": [guesses_array[0, 1]],
-            "2S": [guesses_array[1, 0]], "2P": [guesses_array[1, 1]],
-            "3S": [guesses_array[2, 0]], "3P": [guesses_array[2, 1]],
+            "1S": [guesses_array[0, 0]], "1C": [guesses_array[0, 1]], "1P": [guesses_array[0, 2]],
+            "2S": [guesses_array[1, 0]], "2C": [guesses_array[1, 1]], "2P": [guesses_array[1, 2]],
+            "3S": [guesses_array[2, 0]], "3C": [guesses_array[2, 1]], "3P": [guesses_array[2, 2]],
             "FINAL": [final_score]
         }
 
