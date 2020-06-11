@@ -44,5 +44,5 @@ def image_preprocess(image_path):
     image_out = ImageOps.expand(pad_img, 11, "white")
 
     # Export to temporary directory
-    image_out.save('_temp/input/Oak_input.png')
+    # image_out.save('_temp/input/Oak_input.png')
     return(image_out)

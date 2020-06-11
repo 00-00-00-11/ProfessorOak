@@ -8,14 +8,14 @@ import tensorflow as tf
 core = tf.keras.models.load_model("professor_oak_cnn.h5")
 
 # Set input variables
-target_species = 'Weepinbell'
+target_species = 'Tentacruel'
 image_path = 'test_images/' + target_species.lower() + '.png'
 
 # Perform image pre-processing
-im.image_preprocess(image_path)
+input_image = im.image_preprocess(image_path)
 
 # Perform model inference
-predictions = pred.model_prediction(core)
+predictions = pred.model_prediction(input_image, core)
 
 # Generate final scores
 output = score.oak_score(target_species, predictions)
