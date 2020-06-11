@@ -8,7 +8,7 @@ import tensorflow as tf
 core = tf.keras.models.load_model("professor_oak_cnn.h5")
 
 # Set input variables
-target_species = 'Tentacruel'
+target_species = 'Weepinbell'
 image_path = 'test_images/' + target_species.lower() + '.png'
 
 # Perform image pre-processing
