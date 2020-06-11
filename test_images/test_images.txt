@@ -1,0 +1,9 @@
+Test outputs
+-------------
+
+1 guess, right: Lapras, Wigglytuff
+1 guess, wrong: Vaporeon
+2 guesses, both wrong: Charmander, Koffing
+2 guesses, one right: Tentacruel
+3 guesses, all wrong: Beedrill, Pidgeot, Raichu, Tauros, Wartortle, Weepinbell
+3 guesses, one right: Kangaskhan, Lickitung, Slowbro

@@ -5,10 +5,10 @@ Initial version of Professor Oak, translated into Python.
 
 Requires modules tensorflow, PIL and numpy.
 
-TO DO
+To do list
 -------
 
-Keras read from Pillow image class, rather than flowing from directory
+*generate_scores* - output scoring criteria for guesses (type, family, shape)
 
 GUI with Tkinter
 
