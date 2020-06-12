@@ -13,7 +13,8 @@ core = tf.keras.models.load_model("professor_oak_cnn.h5")
 
 
 # Define oak function
-def professor_oak(target_species, image_path=None, print_out=True):
+def professor_oak(target_species, image_path=None,
+                  print_out=True, return_JSON=False):
     # Set test images for debugging
     if image_path is None:
         image_path = 'test_images/' + target_species.lower() + '.png'
@@ -75,4 +76,5 @@ def professor_oak(target_species, image_path=None, print_out=True):
                 )
             print('Scaled to my own skill, my final score is', str(results['FINAL'][0]) +
                   ' out of 100!')
-    return output
+    if return_JSON:
+        return output
