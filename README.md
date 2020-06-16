@@ -10,6 +10,8 @@ To do list
 
 GUI with Tkinter
 
+Update and test removing white borders on images during preprocessing (i.e, just rescaling to 86x86 and feeding that straight in)
+
 
 professor_oak.py
 ------------------------------
@@ -32,8 +34,8 @@ JSON format containing: % accuracy of Oak's guess, Species and score for his top
 image_preprocessing.py
 ------------------------------
 Takes the input image, crops, rescales, etc.
-Places is into temporary directory _temp/input so Keras can see it
 
+Returns as PIL image object that, with some reshaping, can be read by Keras.
 
 model_inference.py
 ------------------------------
@@ -43,7 +45,7 @@ Runs the image in the above temp directory through the Professor Oak Convolution
 generate_scores.py
 ------------------------------
 
-Takes the target and the predictions, and generates scores as a JSON according to a somewhat complex process. I'll describe this full when I can be arsed.
+Takes the target and the predictions, and generates scores as a JSON according to a somewhat complex process described in the manual.
 
 
 professor_oak_cnn.h5
