@@ -1,0 +1,114 @@
+\documentclass[onecolumn]{article}
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{float}
+\usepackage{tabularx} 
+\usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage{fancyhdr}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage[color=orange]{todonotes}
+\usepackage{blindtext}
+
+%Equation references
+\usepackage{cleveref}
+
+%Titling
+    \usepackage[compact]{titlesec}
+    \titlespacing{\section}{0pt}{3ex}{2ex}
+    \titlespacing{\subsection}{0pt}{2ex}{1ex}
+    \titlespacing{\subsubsection}{0pt}{1ex}{0.5ex}
+\titleformat*{\section}{\Large\scshape}
+\titleformat*{\subsection}{\large}
+\titleformat{\subsubsection}
+  {\normalfont\bfseries}{\thesubsection}{1em}{}
+  
+%Page size
+	\addtolength{\oddsidemargin}{-.875in}
+	\addtolength{\evensidemargin}{-.875in}
+	\addtolength{\textwidth}{1.75in}
+
+	\addtolength{\topmargin}{-.875in}
+	\addtolength{\textheight}{1.75in}
+	
+	\parskip=.1cm
+	
+     
+\begin{document}
+\begin{titlepage}
+	{\huge Professor Oak: A Keras-based convolutional neural network to predict Generation 1 Pokemon from terrible MS paint drawings
+\par}
+	\vspace{1cm}
+	{\Large The Infamous Gentlemen \par}
+	\vspace{1cm}
+	{\large \today\par}
+	
+\end{titlepage}
+
+\section*{Introduction}
+
+This document accompanies the `Professor Oak' program. Professor Oak is a convolutional neural network (CNN) which has been trained on images of all Generation 1 Pokemon (i.e, original 151, Red/Blue/Yellow). This network then attempts to predict the class (i.e, Pokemon species) of unknown images supplied by the user. Following this, the image is then `scored' based on the confidence of the network's predictions, and the similarity of its `best guesses' to the target species.
+
+The `readme' file in this repository serves as a quick reference guide to Oak's various modules, including inputs and outputs. This file will be a more in-depth guide, as well as detailing the training process and model architecture.
+
+\section*{Files Description}
+
+
+\subsection*{Python Scripts}
+
+First, we will describe the various Python files supplied with the project. These are separate Python sub-functions that work together. They were ported into Python from one R file which handled the whole process. The decision was made to move to Python for 2 main reasons:
+
+\begin{enumerate}
+\item Ease of deployability (standalone application or web interface)
+\item Increased speed, especially for image processing and the Keras/TensorFlow library
+\end{enumerate}
+
+\subsubsection*{professor\_oak.py}
+
+
+This is the central function which handles user input/output and co-ordinates the other three sub-functions. It first loads those sub functions, as well as the \textit{json}, \textit{numpy} and \textit{tensorflow} libraries, and the \textit{professor\_oak\_cnn.h5} network model (described below).
+
+The main inputs to the Oak function are the name of a target species (needed for scoring purposes), and the path to the target image. Other options are available to control output. The function takes these inputs, and calls each of the three sub-functions in order; \textit{image\_preprocssing.py}, \textit{model\_inference.py} and \textit{generate\_scores.py}. Details on these are given below. By default it then prints the output of these scores in a human-readable format. This printing function can be disabled with the \textit{print\_out} argument, and a JSON-formatted output can be enabled with \textit{return\_JSON}.
+
+\subsubsection*{image\_preprocessing.py}
+
+This function uses the \textit{PIL}, \textit{math} and \textit{numpy} libraries. It takes an image path, loads it, and prepares it for model inference. First, it must be noted that the model only works for images with a white background and no transparency. Secondly, these images must have dimensions of 86$\times$86 pixels, and three colour channels. 
+
+The image is loaded, and cropped so it extends to the limits of the canvas. This cropping assumes the image has a white background. The image is rescaled using bilinear interpolation such that its longest axis is 64 pixels. White space is then used to pad the shorter axis to 64 pixels also. The result is a 64$\times$64 image, which is then placed in the centre of a 86$\times$86 white canvas.
+
+This was originally done to match up with the training data (see `Training Details'). In brief 64$\times$64 was the size of the smallest training images. Larger images were resampled down to this value to standardise training. The buffer region to 86$\times$86 was added to allow the rotating of training images without clipping during augmentation. 
+
+Thus, this process is now somewhat outdated. It must be noted that all input images will therefore have a white border, which is not necessarily the case for training images. Future plans is, after some testing, to remove this functionality and simply scale images to 86$\times$86.
+
+\subsubsection*{model\_inference.py}
+
+\subsubsection*{generate\_scores.py}
+
+\subsection*{Auxiliary files}
+
+\subsubsection*{professor\_oak\_cnn.h5}
+
+\subsubsection*{pokedex.json}
+
+\section*{Network Architecture}
+
+\section*{Training Details}
+
+\section*{Inference Details}
+
+\section*{Scoring System}
+
+\section*{Tips for Use and Limitations}
+
+%Fill
+
+%Broad strokes
+
+%Colour
+
+%Identifying characteristics
+
+\end{document}
