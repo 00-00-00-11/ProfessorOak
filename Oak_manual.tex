@@ -97,6 +97,19 @@ Thus, this process is now somewhat outdated. It must be noted that all input ima
 
 \section*{Training Details}
 
+\subsection*{Image Augmentation}
+
+In order to make the final model more robust to changes in pose, lighting, or indeed, large-scale morphological features, training images were run through an image augmentation pipeline. Parameters of this pipeline can be found in Table XXX, and example augmented images in Figure XXX.
+
+\subsection*{Validation Set}
+
+To ensure the model's ability to generalise to new data, a validation set was created consisting of 2 images per species not used in training. These consisted of sprites from the Gen V games (Black/White), and the official Ken Sugimori artwork for each species.
+
+The Gen V sprites were chosen because they are the highest resolution ones available (96$\times$96), and such often require downscaling to match Oak's required resolution of 86$\times$86. As we believed it likely that most input images would be drawn at a greater resolution than this, it was prudent to ensure that Oak's performance be validated on accurate but downsampled images.
+
+The Ken Sugimori images were chosen as they are less like sprites, and more like drawings. They tend to have softer lines and less saturated colours than sprites, and with more variation in pose. As such, using them for validation ensured Oak would be better at picking out patterns of colours and features to generalise with, rather than specific collections of pixels defining the sprite-like images.
+
+
 \section*{Inference Details}
 
 \section*{Scoring System}
